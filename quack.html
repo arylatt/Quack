@@ -14,7 +14,7 @@
             }
 
             #app {
-                display:flex;
+                display: flex;
                 align-items: center;
                 justify-content: center;
                 height: 100vh;
@@ -26,7 +26,7 @@
 
             .duck {
                 animation-name: 'spin';
-                animation-duration: 750ms;
+                animation-duration: 10ms;
                 animation-iteration-count: infinite;
                 animation-timing-function: linear;
             }
@@ -55,7 +55,7 @@
         <script type="text/javascript">
             $(document).ready(() => {
                 $('#duck').click(() => {
-                    $('#duck').addClass('duck');
+                    $('#duck').toggleClass('duck');
                     $.ajax('/quack', {
                         headers: {
                             Authorization: 'breakfast'
