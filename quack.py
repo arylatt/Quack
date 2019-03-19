@@ -44,28 +44,19 @@ class QuackHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(http.server.HTTPStatus.OK)
         if self.path == "/duck.png":
             f = open('duck.png', 'rb')
-            try:
-                self.send_header("Content-type", 'image/png')
-                fs = os.fstat(f.fileno())
-                self.send_header("Content-Length", str(fs[6]))
-                self.send_header("Last-Modified", self.date_time_string(fs.st_mtime))
-                self.end_headers()
-                return f
-            except:
-                f.close()
-                raise
+            self.send_header("Content-type", 'image/png')
         else:
             f = open('quack.html', 'rb')
-            try:
-                self.send_header("Content-type", 'text/html')
-                fs = os.fstat(f.fileno())
-                self.send_header("Content-Length", str(fs[6]))
-                self.send_header("Last-Modified", self.date_time_string(fs.st_mtime))
-                self.end_headers()
-                return f
-            except:
-                f.close()
-                raise
+            self.send_header("Content-type", 'text/html')
+        try:
+            fs = os.fstat(f.fileno())
+            self.send_header("Content-Length", str(fs[6]))
+            self.send_header("Last-Modified", self.date_time_string(fs.st_mtime))
+            self.end_headers()
+            return f
+        except:
+            f.close()
+            raise
 
     def copyfile(self, source, outputfile):
         shutil.copyfileobj(source, outputfile)
