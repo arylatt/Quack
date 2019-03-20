@@ -20,8 +20,15 @@
                 height: 100vh;
             }
 
-            #duck, #duck > img {
+            .ready {
                 cursor: pointer;
+            }
+
+            .dead {
+                cursor: not-allowed;
+                transform: rotate(180deg);
+                -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
             }
 
             .duck {
@@ -54,14 +61,26 @@
         <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
             $(document).ready(() => {
-                $('#duck').click(() => {
-                    $('#duck').toggleClass('duck');
-                    $.ajax('/quack', {
-                        headers: {
-                            Authorization: 'breakfast'
-                        },
-                      method: 'PUT'  
-                    });
+                $.ajax('/state', {
+                    error: ((xhr, status, err) => {
+                        $('#duck').addClass('dead');
+                    }),
+                    success: ((data, status, xhr) => {
+                        if (data.enabled === true) {
+                            $('#duck').addClass('ready');
+                            $('#duck').click(() => {
+                                $('#duck').toggleClass('duck');
+                                $.ajax('/quack', {
+                                    headers: {
+                                        Authorization: 'breakfast'
+                                    },
+                                    method: 'PUT'  
+                                });
+                            });
+                        } else {
+                            $('#duck').addClass('dead');
+                        }
+                    })
                 });
             });
         </script>
