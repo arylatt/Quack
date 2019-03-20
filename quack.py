@@ -5,7 +5,7 @@ import os
 import time
 import RPi.GPIO as GPIO
 
-port = 8080
+port = 80
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(12, GPIO.OUT, initial=GPIO.LOW)
